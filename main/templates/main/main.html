@@ -1,0 +1,84 @@
+{% extends "main/base.html" %}
+{% block title %}Plataforma Digital Básica{% endblock %}
+{% block content %}
+<div class="welcome-message">
+    <h1>
+        Bem vindo,
+        <span class="username">
+            {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}
+        </span>!
+    </h1>
+    {% if level == "basico" %}
+        <p>Você selecionou o nível <strong>Básico</strong>. Aprenda os fundamentos da tecnologia e do uso da internet.</p>
+    {% elif level == "intermediario" %}
+        <p>Você selecionou o nível <strong>Intermediário</strong>. Aprofunde seus conhecimentos e explore recursos mais avançados da tecnologia.</p>
+    {% elif level == "avancado" %}
+        <p>Você selecionou o nível <strong>Avançado</strong>. Desafie-se com conteúdos avançados e amplie ainda mais suas habilidades digitais!</p>
+    {% else %}
+        <p>Aprenda os fundamentos da tecnologia e do uso da internet.</p>
+    {% endif %}
+</div>
+<section class="lessons">
+    <h2>Aulas em Destaque</h2>
+    <ul>
+        <li>
+            O que é um computador?
+            <a href="{% url 'main:aulas' %}?topico=computador" class="lesson-btn">Acessar</a>
+        </li>
+        <li>
+            Como navegar na internet com segurança
+            <a href="{% url 'main:aulas' %}?topico=seguranca" class="lesson-btn">Acessar</a>
+        </li>
+        <li>
+            Introdução ao e-mail
+            <a href="{% url 'main:aulas' %}?topico=email" class="lesson-btn">Acessar</a>
+        </li>
+        <li>
+            Redes sociais: o que são e como usar
+            <a href="{% url 'main:aulas' %}?topico=redes" class="lesson-btn">Acessar</a>
+        </li>
+    </ul>
+</section>
+<section class="activities">
+    <h2>Atividades Práticas</h2>
+    <ul>
+        <li>
+            Envie seu primeiro e-mail
+            <a href="{% url 'main:atividade' 'envia-email' %}" class="lesson-btn">Praticar</a>
+        </li>
+        <li>
+            Criar uma senha segura
+            <a href="{% url 'main:atividade' 'senha-segura' %}" class="lesson-btn">Praticar</a>
+        </li>
+        <li>
+            Identifique um anexo
+            <a href="{% url 'main:atividade' 'anexo-email' %}" class="lesson-btn">Praticar</a>
+        </li>
+        <li>
+            Reconheça sites confiáveis
+            <a href="{% url 'main:atividade' 'sites-confiaveis' %}" class="lesson-btn">Praticar</a>
+        </li>
+        <li>
+            Configurar privacidade
+            <a href="{% url 'main:atividade' 'privacidade-redes' %}" class="lesson-btn">Praticar</a>
+        </li>
+        <li>
+            Boas práticas nas redes
+            <a href="{% url 'main:atividade' 'redes-sociais' %}" class="lesson-btn">Praticar</a>
+        </li>
+        <li>
+            Identifique as partes do computador
+            <a href="{% url 'main:atividade' 'partes-computador' %}" class="lesson-btn">Praticar</a>
+        </li>
+    </ul>
+</section>
+<section class="tips">
+    <h2>Dicas Rápidas</h2>
+    <ul>
+        <li>Não compartilhe suas senhas com ninguém.</li>
+        <li>Desconfie de links suspeitos em e-mails.</li>
+        <li>Mantenha seu antivírus atualizado.</li>
+    </ul>
+</section>
+{% endblock %}
+

@@ -1,0 +1,218 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block title %}Boas práticas nas redes sociais{% endblock %}
+{% block content %}
+<h1 style="text-align:center;margin-top:1.5em;">Simulação de Chat em Rede Social</h1>
+<p style="text-align:center;">Converse com um contato e escolha as melhores atitudes para sua segurança:</p>
+<div class="chat-outer">
+    <div id="chat-container" class="chat-container">
+    </div>
+    <div id="chat-options" class="chat-options">
+    </div>
+    <div id="chat-feedback" style="margin-top:1em;font-weight:600;text-align:center;"></div>
+</div>
+<a href="{% url 'main:atividades' %}" class="lesson-btn" style="margin-top:2em;display:block;text-align:center;">Voltar para atividades</a>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+<style>
+body, html {
+    background: #f6f8fc;
+}
+.chat-outer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 70vh;
+    margin-top: 2em;
+}
+.chat-container {
+    background: #f7fafd;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(25,118,210,0.09);
+    padding: 1.7em 1.3em 1.2em 1.3em;
+    max-width: 420px;
+    width: 100%;
+    min-width: 320px;
+    margin: 0 auto;
+    min-height: 180px;
+    font-size: 1.08em;
+    margin-bottom: 0.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.chat-message {
+    margin-bottom: 1.1em;
+    display: flex;
+    align-items: flex-end;
+}
+.chat-message.user {
+    justify-content: flex-end;
+}
+.chat-bubble {
+    background: #e3f0ff;
+    color: #222;
+    border-radius: 16px 16px 4px 16px;
+    padding: 0.7em 1.1em;
+    max-width: 75%;
+    margin-left: 0.7em;
+    margin-right: 0.7em;
+    box-shadow: 0 1px 4px rgba(25,118,210,0.07);
+    word-break: break-word;
+}
+.chat-message.user .chat-bubble {
+    background: #1976d2;
+    color: #fff;
+    border-radius: 16px 16px 16px 4px;
+}
+.chat-avatar, .chat-avatar-img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #b3e0ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.7em;
+    color: #1976d2;
+    margin-right: 0.5em;
+    object-fit: cover;
+    box-shadow: 0 1px 4px rgba(25,118,210,0.07);
+}
+.chat-message.user .chat-avatar, .chat-message.user .chat-avatar-img {
+    margin-left: 0.5em;
+    margin-right: 0;
+    background: #1976d2;
+    color: #fff;
+}
+.chat-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7em;
+    max-width: 420px;
+    width: 100%;
+    margin: 1.2em auto 0 auto;
+}
+.chat-btn {
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    padding: 0.7em 1.2em;
+    font-size: 1.08em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-align: left;
+    box-shadow: 0 1px 4px rgba(25,118,210,0.07);
+}
+.chat-btn:hover {
+    background: #1251a3;
+}
+.atividade-check {
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: middle;
+    margin-right: 0.5em;
+}
+.atividade-check.checked::before {
+    content: "✔";
+    color: #388e3c;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+@media (max-width: 600px) {
+    .chat-container, .chat-options { max-width: 98vw; min-width: 0; }
+    .chat-outer { margin-top: 0.5em; }
+}
+</style>
+<script>
+const contactImgUrl = "{% static 'main/icons/profile_avatar_contact.jpg' %}";
+const userImgUrl = "{% static 'main/icons/profile_avatar_user.jpeg' %}";
+const chatSteps = [
+    {
+        msg: "Olha essa promoção! tá muito barato: http://promo-premios-gratis.com",
+        options: [
+            { text: "Clicar no link", correct: false, feedback: "Esse link é suspeito! Nunca clique em links desconhecidos." },
+            { text: "Ignorar o link", correct: true, feedback: "Muito bem! Nunca clique em links suspeitos ou desconhecidos." }
+        ]
+    },
+    {
+        msg: "Você pode me passar seu número de telefone? Quero te adicionar em outro app.",
+        options: [
+            { text: "Informar meu número", correct: false, feedback: "Nunca compartilhe dados pessoais com desconhecidos ou contatos suspeitos." },
+            { text: "Não informar meu número", correct: true, feedback: "Ótima escolha! Proteja sempre seus dados pessoais." }
+        ]
+    },
+    {
+        msg: "Posso ver suas fotos do perfil? Me manda algumas!",
+        options: [
+            { text: "Enviar fotos", correct: false, feedback: "Evite compartilhar fotos pessoais com pessoas que você não conhece bem." },
+            { text: "Não enviar fotos", correct: true, feedback: "Muito bem! Compartilhe fotos apenas com pessoas de confiança." }
+        ]
+    }
+];
+let currentStep = 0;
+let acertos = 0;
+function showStep() {
+    const chat = document.getElementById('chat-container');
+    const options = document.getElementById('chat-options');
+    const feedback = document.getElementById('chat-feedback');
+    feedback.innerHTML = "";
+    chat.innerHTML += `
+        <div class="chat-message">
+            <img src="${contactImgUrl}" alt="Contato" class="chat-avatar-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <span class="chat-avatar material-symbols-outlined" style="display:none;">person</span>
+            <span class="chat-bubble">${chatSteps[currentStep].msg}</span>
+        </div>
+    `;
+    options.innerHTML = "";
+    chatSteps[currentStep].options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'chat-btn';
+        btn.innerText = opt.text;
+        btn.onclick = () => handleOption(idx);
+        options.appendChild(btn);
+    });
+    chat.scrollTop = chat.scrollHeight;
+}
+function handleOption(idx) {
+    const chat = document.getElementById('chat-container');
+    const options = document.getElementById('chat-options');
+    const feedback = document.getElementById('chat-feedback');
+    chat.innerHTML += `
+        <div class="chat-message user">
+            <span class="chat-bubble">${chatSteps[currentStep].options[idx].text}</span>
+            <img src="${userImgUrl}" alt="Você" class="chat-avatar-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <span class="chat-avatar material-symbols-outlined" style="display:none;background:#1976d2;color:#fff;">person</span>
+        </div>
+    `;
+    const opt = chatSteps[currentStep].options[idx];
+    feedback.innerHTML = `<span style="color:${opt.correct ? '#388e3c' : '#d32f2f'}">${opt.feedback}</span>`;
+    if (opt.correct) acertos++;
+    options.innerHTML = "";
+    currentStep++;
+    if (currentStep < chatSteps.length) {
+        setTimeout(showStep, 1400);
+    } else {
+        setTimeout(() => {
+            feedback.innerHTML = acertos === chatSteps.length
+                ? "<span style='color:green;'>Parabéns! Você tomou todas as decisões corretas no chat.</span>"
+                : "<span style='color:#d32f2f;'>Revise suas decisões. O ideal é sempre proteger seus dados e não clicar em links suspeitos.</span>";
+            if (acertos === chatSteps.length) {
+                localStorage.setItem('atividade_redes-sociais', 'done');
+            }
+        }, 1400);
+    }
+}
+window.onload = function() {
+    document.getElementById('chat-container').innerHTML = "";
+    document.getElementById('chat-options').innerHTML = "";
+    document.getElementById('chat-feedback').innerHTML = "";
+    currentStep = 0;
+    acertos = 0;
+    showStep();
+};
+</script>
+{% endblock %}

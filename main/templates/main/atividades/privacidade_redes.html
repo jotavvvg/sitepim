@@ -1,0 +1,239 @@
+{% extends "main/base.html" %}
+{% block title %}Configurar privacidade{% endblock %}
+{% block content %}
+<div class="social-settings-bg">
+    <div class="social-settings-card">
+        <div class="settings-header">
+            <span class="material-symbols-outlined settings-icon">lock</span>
+            <h1>Configurações de Privacidade</h1>
+            <p class="settings-desc">Escolha quem pode ver suas informações e interagir com você.</p>
+        </div>
+        <form id="privacidade-form">
+            <div class="settings-group">
+                <label for="fotos" class="settings-label">
+                    <span class="material-symbols-outlined settings-qicon">photo_camera</span>
+                    Quem pode ver suas fotos?
+                </label>
+                <select id="fotos" class="settings-select">
+                    <option value="todos">Todos</option>
+                    <option value="amigos">Apenas amigos</option>
+                    <option value="ninguem">Ninguém</option>
+                </select>
+                <span id="check-fotos" class="settings-check">✗</span>
+            </div>
+            <div class="settings-group">
+                <label for="mensagens" class="settings-label">
+                    <span class="material-symbols-outlined settings-qicon">chat</span>
+                    Quem pode enviar mensagens?
+                </label>
+                <select id="mensagens" class="settings-select">
+                    <option value="todos">Todos</option>
+                    <option value="amigos">Apenas amigos</option>
+                    <option value="ninguem">Ninguém</option>
+                </select>
+                <span id="check-mensagens" class="settings-check">✗</span>
+            </div>
+            <div class="settings-group">
+                <label for="telefone" class="settings-label">
+                    <span class="material-symbols-outlined settings-qicon">call</span>
+                    Mostrar número de telefone?
+                </label>
+                <select id="telefone" class="settings-select">
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+                <span id="check-telefone" class="settings-check">✗</span>
+            </div>
+            <button type="submit" class="atividade-btn settings-btn">Publicar</button>
+        </form>
+        <div id="privacidade-feedback" class="settings-feedback"></div>
+    </div>
+</div>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+<style>
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.social-settings-bg {
+    min-height: calc(100vh - 0px);
+    background: linear-gradient(120deg, #e3f0ff 0%, #f8fbff 100%);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 3.5em 0 2em 0; 
+    box-sizing: border-box;
+}
+.social-settings-card {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+    padding: 2.5em 2.5em 2em 2.5em;
+    max-width: 410px;
+    width: 100%;
+    margin: 2em 0;
+}
+.settings-header {
+    text-align: center;
+    margin-bottom: 2em;
+}
+.settings-icon {
+    font-size: 2.5em;
+    color: #1976d2;
+    margin-bottom: 0.2em;
+}
+.settings-header h1 {
+    font-size: 1.5em;
+    margin: 0.2em 0 0.3em 0;
+    color: #222;
+}
+.settings-desc {
+    color: #666;
+    font-size: 1.08em;
+    margin-bottom: 0.5em;
+}
+.settings-group {
+    display: flex;
+    align-items: center;
+    gap: 0.7em;
+    margin-bottom: 1.5em;
+    background: #f7fafd;
+    border-radius: 10px;
+    padding: 1em 1em 1em 0.8em;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    position: relative;
+}
+.settings-label {
+    flex: 1.5;
+    font-size: 1.08em;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+.settings-qicon {
+    font-size: 1.3em;
+    color: #1976d2;
+    vertical-align: middle;
+}
+.settings-select {
+    flex: 1;
+    padding: 0.5em 1em;
+    border-radius: 7px;
+    border: 1px solid #c2e7ff;
+    font-size: 1.05em;
+    background: #f8fafc;
+    transition: border-color 0.2s;
+}
+.settings-select:focus {
+    border-color: #1976d2;
+    outline: none;
+}
+.settings-check {
+    font-size: 1.3em;
+    width: 1.5em;
+    text-align: center;
+    color: #d32f2f;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+.settings-group.checked .settings-check {
+    color: #388e3c;
+}
+.settings-btn {
+    width: 100%;
+    margin-top: 0.7em;
+    font-size: 1.13em;
+    padding: 0.8em 0;
+    border-radius: 24px;
+    background: #1976d2;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    box-shadow: 0 2px 8px rgba(25,118,210,0.08);
+    transition: background 0.2s;
+}
+.settings-btn:hover {
+    background: #1251a3;
+}
+.settings-feedback {
+    margin-top: 1.5em;
+    text-align: center;
+    font-size: 1.13em;
+    min-height: 2em;
+}
+.atividade-check {
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: middle;
+    margin-right: 0.5em;
+}
+.atividade-check.checked::before {
+    content: "✔";
+    color: #388e3c;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+</style>
+<script>
+function updateChecklist() {
+    const fotos = document.getElementById('fotos').value;
+    const fotosGroup = document.getElementById('fotos').closest('.settings-group');
+    const checkFotos = document.getElementById('check-fotos');
+    if (fotos === "amigos" || fotos === "ninguem") {
+        fotosGroup.classList.add('checked');
+        checkFotos.textContent = "✔";
+    } else {
+        fotosGroup.classList.remove('checked');
+        checkFotos.textContent = "✗";
+    }
+    const mensagens = document.getElementById('mensagens').value;
+    const mensagensGroup = document.getElementById('mensagens').closest('.settings-group');
+    const checkMensagens = document.getElementById('check-mensagens');
+    if (mensagens === "amigos" || mensagens === "ninguem") {
+        mensagensGroup.classList.add('checked');
+        checkMensagens.textContent = "✔";
+    } else {
+        mensagensGroup.classList.remove('checked');
+        checkMensagens.textContent = "✗";
+    }
+    const telefone = document.getElementById('telefone').value;
+    const telefoneGroup = document.getElementById('telefone').closest('.settings-group');
+    const checkTelefone = document.getElementById('check-telefone');
+    if (telefone === "nao") {
+        telefoneGroup.classList.add('checked');
+        checkTelefone.textContent = "✔";
+    } else {
+        telefoneGroup.classList.remove('checked');
+        checkTelefone.textContent = "✗";
+    }
+    document.getElementById('privacidade-feedback').innerHTML = "";
+}
+document.getElementById('fotos').addEventListener('change', updateChecklist);
+document.getElementById('mensagens').addEventListener('change', updateChecklist);
+document.getElementById('telefone').addEventListener('change', updateChecklist);
+document.getElementById('privacidade-form').addEventListener('submit', verificarPrivacidade);
+function verificarPrivacidade(event) {
+    event.preventDefault();
+    let fotos = document.getElementById('fotos').value;
+    let mensagens = document.getElementById('mensagens').value;
+    let telefone = document.getElementById('telefone').value;
+    if (
+        (fotos === "amigos" || fotos === "ninguem") &&
+        (mensagens === "amigos" || mensagens === "ninguem") &&
+        telefone === "nao"
+    ) {
+        document.getElementById('privacidade-feedback').innerHTML =
+            "<span style='color:green;'>Ótimo! Suas configurações de privacidade estão seguras.</span>";
+        localStorage.setItem('atividade_privacidade-redes', 'done');
+    } else {
+        document.getElementById('privacidade-feedback').innerHTML =
+            "<span style='color:#d32f2f;'>Tente deixar suas fotos e mensagens visíveis apenas para amigos ou ninguém e não mostrar seu telefone.</span>";
+    }
+}
+updateChecklist();
+</script>
+<a href="{% url 'main:atividades' %}" class="lesson-btn" style="margin-top:2em;">Voltar para atividades</a>
+{% endblock %}

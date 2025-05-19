@@ -1,0 +1,197 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block title %}Quiz: O que é um computador?{% endblock %}
+{% block content %}
+<h1 class="quiz-title">Quiz: O que é um computador?</h1>
+<p class="quiz-desc">Responda ao quiz sobre as partes do computador e seus usos.</p>
+<form id="quiz-form" class="quiz-form" onsubmit="return checkQuiz();">
+    <div class="quiz-question-card">
+        <div class="quiz-question-num">1</div>
+        <div>
+            <strong>Qual destas opções é usada para digitar textos?</strong>
+            <div class="quiz-options">
+                <label class="quiz-option"><input type="radio" name="q1" value="monitor"> Monitor</label>
+                <label class="quiz-option"><input type="radio" name="q1" value="teclado"> Teclado</label>
+                <label class="quiz-option"><input type="radio" name="q1" value="mouse"> Mouse</label>
+            </div>
+        </div>
+    </div>
+    <div class="quiz-question-card">
+        <div class="quiz-question-num">2</div>
+        <div>
+            <strong>Qual parte do computador exibe as imagens?</strong>
+            <div class="quiz-options">
+                <label class="quiz-option"><input type="radio" name="q2" value="gabinete"> Gabinete</label>
+                <label class="quiz-option"><input type="radio" name="q2" value="monitor"> Monitor</label>
+                <label class="quiz-option"><input type="radio" name="q2" value="teclado"> Teclado</label>
+            </div>
+        </div>
+    </div>
+    <div class="quiz-question-card">
+        <div class="quiz-question-num">3</div>
+        <div>
+            <strong>Para que serve o mouse?</strong>
+            <div class="quiz-options">
+                <label class="quiz-option"><input type="radio" name="q3" value="clicar"> Mover o cursor e clicar em itens na tela</label>
+                <label class="quiz-option"><input type="radio" name="q3" value="digitar"> Digitar textos</label>
+                <label class="quiz-option"><input type="radio" name="q3" value="armazenar"> Armazenar arquivos</label>
+            </div>
+        </div>
+    </div>
+    <div class="quiz-question-card">
+        <div class="quiz-question-num">4</div>
+        <div>
+            <strong>Onde ficam os componentes internos do computador?</strong>
+            <div class="quiz-options">
+                <label class="quiz-option"><input type="radio" name="q4" value="monitor"> Monitor</label>
+                <label class="quiz-option"><input type="radio" name="q4" value="gabinete"> Gabinete</label>
+                <label class="quiz-option"><input type="radio" name="q4" value="mouse"> Mouse</label>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="atividade-btn quiz-btn">Verificar respostas</button>
+</form>
+<div id="quiz-feedback" class="quiz-feedback"></div>
+<a href="{% url 'main:atividades' %}" class="lesson-btn" style="margin-top:2em;">Voltar para atividades</a>
+<style>
+.quiz-title {
+    text-align: center;
+    margin-top: 1.5em;
+    font-size: 2em;
+    color: #fff !important;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+.quiz-desc {
+    text-align: center;
+    color: #555;
+    margin-bottom: 2em;
+    font-size: 1.1em;
+}
+.quiz-form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+.quiz-question-card {
+    display: flex;
+    align-items: flex-start;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    padding: 1.5em 1.5em 1.5em 1em;
+    gap: 1.3em;
+    border-left: 6px solid #ffd600;
+}
+.quiz-question-num {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: #ffd600;
+    background: #232526;
+    border-radius: 50%;
+    width: 2.2em;
+    height: 2.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.2em;
+    flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+.quiz-options {
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7em;
+}
+.quiz-option {
+    background: #f7f7f7;
+    border-radius: 7px;
+    padding: 0.6em 1em;
+    font-size: 1.08em;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.7em;
+    border: 2px solid transparent;
+}
+.quiz-option input[type="radio"] {
+    accent-color: #ffd600;
+    width: 1.1em;
+    height: 1.1em;
+}
+.quiz-option.selected {
+    background: #fffbe6;
+    border-color: #ffd600;
+    color: #232526;
+}
+.quiz-btn {
+    margin: 2em auto 0 auto;
+    display: block;
+    font-size: 1.1em;
+    padding: 0.8em 2.5em;
+}
+.quiz-feedback {
+    text-align: center;
+    margin: 2em auto 0 auto;
+    font-size: 1.2em;
+    font-weight: 700;
+    min-height: 2em;
+}
+.atividade-check {
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: middle;
+    margin-right: 0.5em;
+}
+.atividade-check.checked::before {
+    content: "✔";
+    color: #388e3c;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+.quiz-desc,
+.quiz-instrucao,
+.quiz-instructions,
+.quiz-title + p,
+.quiz-title + .quiz-desc {
+    color: #f1f1f1 !important;
+}
+</style>
+<script>
+document.querySelectorAll('.quiz-options').forEach(group => {
+    group.addEventListener('change', function(e) {
+        if (e.target.type === "radio") {
+            group.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+            e.target.closest('.quiz-option').classList.add('selected');
+        }
+    });
+});
+function checkQuiz() {
+    const answers = {
+        q1: "teclado",
+        q2: "monitor",
+        q3: "clicar",
+        q4: "gabinete"
+    };
+    let correct = 0;
+    for (let q in answers) {
+        const selected = document.querySelector('input[name="'+q+'"]:checked');
+        if (selected && selected.value === answers[q]) correct++;
+    }
+    let msg = "";
+    if (correct === 4) {
+        msg = "<span style='color:green;'>🎉 Parabéns! Você acertou todas as perguntas!</span>";
+        localStorage.setItem('atividade_partes-computador', 'done');
+    } else {
+        msg = "<span style='color:#d32f2f;'>Você acertou " + correct + " de 4. Reveja as aulas e tente novamente!</span>";
+    }
+    document.getElementById('quiz-feedback').innerHTML = msg;
+    return false; // Prevent form submission
+}
+</script>
+{% endblock %}

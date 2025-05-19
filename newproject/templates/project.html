@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Site Teste - Plataforma Digital</title>
+    <link rel="stylesheet" href="{% static 'project.css' %}">
+</head>
+<body>
+<nav>
+    <div class="nav-container">
+        <div class="logo">
+            <span class="logo-icon">🎓</span>
+            <span class="logo-text">Plataforma Digital PIM</span>
+        </div>
+        <div class="nav-links-search">
+            <ul>
+                <li><a href="#">Início</a></li>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="#">Atividades</a></li>
+            </ul>
+            <form class="search-form" action="#" method="get">
+                <input type="text" placeholder="Buscar..." name="q">
+            </form>
+        </div>
+        <div class="contato-block">
+            <div class="contato-title">Contato</div>
+            <div class="contato-info">
+                <span class="contato-email">email@exemplo.com</span>
+                <span class="contato-phone">| (11) 99999-9999</span>
+            </div>
+        </div>
+    </div>
+</nav>
+<main>
+    <section class="hero">
+        <div class="hero-overlay">
+            <h1>Bem-vindo à <span class="highlight">Plataforma Digital PIM</span></h1>
+            <h2>Seu guia para o mundo digital</h2>
+            <p class="hero-about">
+                Aprenda a navegar, comunicar, comprar e se proteger no universo online.<br>
+                Conteúdo simples, prático e feito para todos.
+            </p>
+            <div class="hero-info-bar">
+                <div><span class="info-icon">🧑‍💻</span> Para iniciantes</div>
+                <div><span class="info-icon">🔒</span> Segurança em primeiro lugar</div>
+                <div><span class="info-icon">🌎</span> 100% online e gratuito</div>
+            </div>
+            <a href="/signup" class="cta-btn">Comece Agora</a>
+        </div>
+    </section>
+    <section class="feature-slide internet align-left">
+        <div class="feature-column">
+            <span class="feature-icon">💻</span>
+            <h3>Conceitos Básicos de Internet</h3>
+            <h4>Fundamentos para navegar com confiança</h4>
+            <div class="feature-points">
+                <div class="feature-point"><span class="point-icon">🌐</span> O que é a internet e como ela funciona</div>
+                <div class="feature-point"><span class="point-icon">🔎</span> Como usar navegadores e motores de busca</div>
+                <div class="feature-point"><span class="point-icon">✉️</span> Configuração e uso de e-mail</div>
+                <div class="feature-point"><span class="point-icon">🛡️</span> Noções de segurança online</div>
+            </div>
+        </div>
+    </section>
+    <section class="feature-slide redes align-right">
+        <div class="feature-column">
+            <span class="feature-icon">📱</span>
+            <h3>Redes Sociais e Comunicação</h3>
+            <h4>Conecte-se com o mundo digital</h4>
+            <div class="feature-points">
+                <div class="feature-point"><span class="point-icon">👤</span> Criação e personalização de perfis</div>
+                <div class="feature-point"><span class="point-icon">🔒</span> Interação segura em redes sociais</div>
+                <div class="feature-point"><span class="point-icon">💬</span> Mensagens, grupos e comunidades</div>
+                <div class="feature-point"><span class="point-icon">🤝</span> Boas práticas de convivência online</div>
+            </div>
+        </div>
+    </section>
+    <section class="feature-slide compras align-left">
+        <div class="feature-column">
+            <span class="feature-icon">🛒</span>
+            <h3>Compras e Serviços Online</h3>
+            <h4>Facilite sua vida no mundo digital</h4>
+            <div class="feature-points">
+                <div class="feature-point"><span class="point-icon">🛍️</span> Como comprar e vender com segurança</div>
+                <div class="feature-point"><span class="point-icon">💳</span> Pagamentos digitais e proteção de dados</div>
+                <div class="feature-point"><span class="point-icon">📱</span> Uso de aplicativos de serviços</div>
+                <div class="feature-point"><span class="point-icon">⚠️</span> Dicas para evitar golpes</div>
+            </div>
+        </div>
+    </section>
+    <section class="feature-slide privacidade align-right">
+        <div class="feature-column">
+            <span class="feature-icon">🔒</span>
+            <h3>Privacidade e Segurança</h3>
+            <h4>Proteja seus dados e sua identidade</h4>
+            <div class="feature-points">
+                <div class="feature-point"><span class="point-icon">🔑</span> Senhas seguras e autenticação</div>
+                <div class="feature-point"><span class="point-icon">🚨</span> Reconhecimento de ameaças digitais</div>
+                <div class="feature-point"><span class="point-icon">⚙️</span> Configurações de privacidade</div>
+                <div class="feature-point"><span class="point-icon">🙈</span> Cuidados com informações pessoais</div>
+            </div>
+        </div>
+    </section>
+</main>
+<footer>
+    <div class="footer-container">
+        <div>
+            <strong>Plataforma Digital PIM</strong> &copy; 2025
+        </div>
+        <div>
+            <a href="#">Sobre</a> | 
+            <a href="#">Contato</a> | 
+            <a href="#">Política de Privacidade</a>
+        </div>
+    </div>
+    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+        ↑ Voltar ao topo da página
+    </button>
+</footer>
+</body>
+</html>
+

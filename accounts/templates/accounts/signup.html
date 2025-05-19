@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro - Site Teste</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div class="auth-bg"></div>
+    <div class="auth-container">
+        <div class="auth-column">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <h1>Crie sua conta</h1>
+            <form method="post" action="">
+                {% csrf_token %}
+                <input type="text" name="first_name" placeholder="Primeiro nome" required>
+                <input type="text" name="username" placeholder="Usuário" required>
+                <input type="password" name="password" placeholder="Senha" required>
+                <button type="submit" class="cta-btn">Cadastrar</button>
+            </form>
+            <a href="{% url 'login' %}" class="login-link">Já tenho uma conta</a>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Entrar - Site Teste</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div class="auth-bg"></div>
+    <div class="auth-container">
+        <div class="auth-column">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <h1>Entrar na sua conta</h1>
+            <form method="post" action="">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Usuário" required>
+                <input type="password" name="password" placeholder="Senha" required>
+                <button type="submit" class="cta-btn">Entrar</button>
+            </form>
+            <a href="{% url 'signup' %}" class="login-link">Criar uma conta</a>
+        </div>
+    </div>
+</body>
+</html>
+

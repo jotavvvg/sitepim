@@ -1,0 +1,274 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block title %}Aulas - Plataforma Digital Básica{% endblock %}
+{% block content %}
+<header>
+    <h1>Aulas</h1>
+</header>
+{% with topico=request.GET.topico %}
+{% if not topico %}
+<div class="courses-list">
+    <h2>Selecione um curso para começar:</h2>
+    <ul>
+        <li>
+            O que é um computador?
+            <a href="{% url 'main:aulas' %}?topico=computador" class="lesson-btn">Acessar</a>
+        </li>
+        <li>
+            Como navegar na internet com segurança
+            <a href="{% url 'main:aulas' %}?topico=seguranca" class="lesson-btn">Acessar</a>
+        </li>
+        <li>
+            Introdução ao e-mail
+            <a href="{% url 'main:aulas' %}?topico=email" class="lesson-btn">Acessar</a>
+        </li>
+        <li>
+            Redes sociais: o que são e como usar
+            <a href="{% url 'main:aulas' %}?topico=redes" class="lesson-btn">Acessar</a>
+        </li>
+    </ul>
+</div>
+{% endif %}
+{% if topico == "computador" %}
+<article class="aula-detalhe-open">
+    <h2>O que é um computador?</h2>
+    <div class="aula-video-placeholder">
+        <p>Vídeo explicativo em breve!</p>
+    </div>
+    <section>
+        <h3>Resumo</h3>
+        <p>Entenda o que é um computador, suas partes principais e como ele pode ser útil no dia a dia.</p>
+    </section>
+    <section>
+        <h3>Definição</h3>
+        <p>Um computador é uma máquina eletrônica capaz de receber, armazenar, processar e transmitir informações.</p>
+    </section>
+    <section>
+        <h3>Principais partes</h3>
+        <ul class="partes-list">
+            <li class="parte-card">
+                <span class="parte-icon">🖥️</span>
+                <div>
+                    <strong>Monitor:</strong>
+                    <div>Tela onde você vê as informações.</div>
+                </div>
+            </li>
+            <li class="parte-card">
+                <span class="parte-icon">⌨️</span>
+                <div>
+                    <strong>Teclado:</strong>
+                    <div>Usado para digitar textos e comandos.</div>
+                </div>
+            </li>
+            <li class="parte-card">
+                <span class="parte-icon">🖱️</span>
+                <div>
+                    <strong>Mouse:</strong>
+                    <div>Permite mover o cursor e clicar em itens na tela.</div>
+                </div>
+            </li>
+            <li class="parte-card">
+                <span class="parte-icon">🖲️</span>
+                <div>
+                    <strong>Gabinete:</strong>
+                    <div>Caixa que guarda os componentes internos (processador, memória, HD, etc).</div>
+                </div>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h3>Para que serve?</h3>
+        <p>Você pode usar um computador para acessar a internet, escrever documentos, assistir vídeos, jogar, estudar e muito mais.</p>
+    </section>
+    <section>
+        <div class="dica">
+            <strong>Dica:</strong> Não tenha medo de explorar! A prática é a melhor forma de aprender.
+        </div>
+    </section>
+    <a href="{% url 'main:aulas' %}" class="lesson-btn">Voltar</a>
+</article>
+{% elif topico == "seguranca" %}
+<article class="aula-detalhe-open">
+    <h2>Como navegar na internet com segurança</h2>
+    <div class="aula-video-placeholder">
+        <p>Vídeo explicativo em breve!</p>
+    </div>
+    <section>
+        <h3>Resumo</h3>
+        <p>Aprenda práticas essenciais para proteger seus dados e sua privacidade online.</p>
+    </section>
+    <section>
+        <h3>Dicas de Segurança</h3>
+        <ul class="partes-list">
+            <li class="parte-card">
+                <span class="parte-icon">🔒</span>
+                <div>
+                    <strong>Senhas seguras:</strong>
+                    <div>Use senhas longas, misturando letras, números e símbolos. Nunca compartilhe sua senha.</div>
+                </div>
+            </li>
+            <li class="parte-card">
+                <span class="parte-icon">🔗</span>
+                <div>
+                    <strong>Sites confiáveis:</strong>
+                    <div>Verifique se o site começa com <code>https://</code> e procure por cadeado ao lado do endereço.</div>
+                </div>
+            </li>
+            <li class="parte-card">
+                <span class="parte-icon">⚠️</span>
+                <div>
+                    <strong>Cuidado com links:</strong>
+                    <div>Não clique em links suspeitos recebidos por e-mail, redes sociais ou mensagens.</div>
+                </div>
+            </li>
+            <li class="parte-card">
+                <span class="parte-icon">🔄</span>
+                <div>
+                    <strong>Atualizações:</strong>
+                    <div>Mantenha seu sistema operacional, navegador e antivírus sempre atualizados.</div>
+                </div>
+            </li>
+            <li class="parte-card">
+                <span class="parte-icon">🎁</span>
+                <div>
+                    <strong>Desconfie de ofertas:</strong>
+                    <div>Se algo parece bom demais para ser verdade, provavelmente é golpe.</div>
+                </div>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <div class="dica">
+            <strong>Dica:</strong> Sempre desconfie de mensagens urgentes pedindo dados pessoais ou dinheiro.
+        </div>
+    </section>
+    <a href="{% url 'main:aulas' %}" class="lesson-btn">Voltar</a>
+</article>
+{% elif topico == "email" %}
+<article class="aula-detalhe-open">
+    <h2>Introdução ao e-mail</h2>
+    <div class="aula-video-placeholder">
+        <p>Vídeo explicativo em breve!</p>
+    </div>
+    <section>
+        <h3>Resumo</h3>
+        <p>Descubra como criar, acessar e usar uma conta de e-mail para comunicação digital.</p>
+    </section>
+    <section>
+        <h3>Passos principais</h3>
+        <ul class="partes-list">
+            <li class="parte-card">
+                <span class="parte-icon">📧</span>
+                <div>
+                    <strong>O que é e-mail?</strong>
+                    <div>É uma forma de enviar e receber mensagens pela internet.</div>
+                </div>
+            </li>
+            <li class="parte-card">
+                <span class="parte-icon">📝</span>
+                <div>
+                    <strong>Como criar uma conta:</strong>
+                    <div>Acesse um serviço como Gmail, Outlook ou Yahoo e siga as instruções de cadastro.</div>
+                </div>
+            </li>
+            <li class="parte-card">
+                <span class="parte-icon">🔑</span>
+                <div>
+                    <strong>Como acessar:</strong>
+                    <div>Entre no site do seu provedor de e-mail e faça login com seu usuário e senha.</div>
+                </div>
+            </li>
+            <li class="parte-card">
+                <span class="parte-icon">✉️</span>
+                <div>
+                    <strong>Enviando um e-mail:</strong>
+                    <div>Clique em "Escrever" ou "Novo", digite o endereço do destinatário, assunto e mensagem, e clique em "Enviar".</div>
+                </div>
+            </li>
+            <li class="parte-card">
+                <span class="parte-icon">📎</span>
+                <div>
+                    <strong>Anexos:</strong>
+                    <div>Você pode enviar fotos, documentos e outros arquivos junto com sua mensagem.</div>
+                </div>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <div class="dica">
+            <strong>Dica:</strong> Sempre confira o endereço do destinatário antes de enviar.
+        </div>
+    </section>
+    <a href="{% url 'main:aulas' %}" class="lesson-btn">Voltar</a>
+</article>
+{% elif topico == "redes" %}
+<article class="aula-detalhe-open">
+    <h2>Redes sociais: O que são e Como usar</h2>
+    <div class="aula-video-placeholder">
+        <p>Vídeo explicativo em breve!</p>
+    </div>
+    <section>
+        <h3>Resumo</h3>
+        <p>Saiba o que são redes sociais, exemplos populares e dicas para usá-las com responsabilidade.</p>
+    </section>
+    <section>
+        <h3>Exemplos populares</h3>
+        <ul class="partes-list social-icons">
+            <li class="parte-card">
+                <span class="parte-icon">
+                    <img src="{% static 'main/icons/facebook.svg' %}" alt="Facebook">
+                </span>
+                <div>Facebook</div>
+            </li>
+            <li class="parte-card">
+                <span class="parte-icon">
+                    <img src="{% static 'main/icons/instagram.svg' %}" alt="Instagram">
+                </span>
+                <div>Instagram</div>
+            </li>
+            <li class="parte-card">
+                <span class="parte-icon">
+                    <img src="{% static 'main/icons/whatsapp.svg' %}" alt="WhatsApp">
+                </span>
+                <div>WhatsApp</div>
+            </li>
+            <li class="parte-card">
+                <span class="parte-icon">
+                    <img src="{% static 'main/icons/x.svg' %}" alt="X">
+                </span>
+                <div>X</div>
+            </li>
+            <li class="parte-card">
+                <span class="parte-icon">
+                    <img src="{% static 'main/icons/tiktok.svg' %}" alt="TikTok">
+                </span>
+                <div>TikTok</div>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h3>Como criar uma conta</h3>
+        <p>Acesse o site ou baixe o aplicativo, preencha seus dados e siga as instruções.</p>
+    </section>
+    <section>
+        <h3>Privacidade</h3>
+        <p>Ajuste as configurações para controlar quem pode ver suas informações e publicações.</p>
+    </section>
+    <section>
+        <h3>Boas práticas</h3>
+        <ul class="boas-praticas-list">
+            <li><span class="bp-icon">✔️</span> Não compartilhe dados pessoais com desconhecidos.</li>
+            <li><span class="bp-icon">✔️</span> Evite clicar em links suspeitos.</li>
+            <li><span class="bp-icon">✔️</span> Respeite outras pessoas e evite discussões desnecessárias.</li>
+        </ul>
+    </section>
+    <section>
+        <div class="dica">
+            <strong>Dica:</strong> Use as redes sociais para aprender, se conectar e se divertir, mas sempre com responsabilidade.
+        </div>
+    </section>
+    <a href="{% url 'main:aulas' %}" class="lesson-btn">Voltar</a>
+</article>
+{% endif %}
+{% endwith %}
+{% endblock %}

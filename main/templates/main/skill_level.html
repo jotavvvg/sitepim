@@ -1,0 +1,274 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Escolha seu nível - Plataforma Digital Básica</title>
+    <link rel="stylesheet" href="{% static 'main/main.css' %}">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 100vh;
+            width: 100vw;
+            overflow-x: hidden;
+            position: relative;
+            background: none !important;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            z-index: 0;
+            background: linear-gradient(rgba(2,6,10,0.6), rgba(2,6,10,0.6)),
+                url('/static/images/skill-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 1;
+            pointer-events: none;
+            filter: blur(2.5px);
+        }
+        .main-flex {
+            display: flex;
+            gap: 2.5em;
+            z-index: 1;
+        }
+        .skill-level-card, .statistics-card {
+            background: #232526;
+            color: #fff;
+            border-radius: 24px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.20);
+            padding: 2.5em 2.2em;
+            min-width: 340px;
+            max-width: 400px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            z-index: 2;
+            position: relative;
+        }
+        .skill-level-header h1 {
+            color: #fff;
+            margin-bottom: 0.5em;
+            font-size: 2.2em;
+            font-weight: 700;
+            text-align: center;
+        }
+        .skill-level-header p {
+            color: #fffbe6;
+            margin-bottom: 2em;
+            font-size: 1.15em;
+            text-align: center;
+        }
+        .skill-level-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5em;
+        }
+        .skill-level-row {
+            display: flex;
+            align-items: center;
+            gap: 1.2em;
+            width: 100%;
+            justify-content: center;
+        }
+        .skill-card {
+            background: linear-gradient(90deg, #ffd600 0%, #fff176 100%);
+            color: #232526;
+            border: none;
+            border-radius: 12px;
+            padding: 1.1em 2.2em;
+            font-size: 1.2em;
+            font-weight: bold;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            min-width: 140px;
+            text-align: center;
+        }
+        .skill-card:hover {
+            background: linear-gradient(90deg, #fff176 0%, #ffd600 100%);
+            transform: translateY(-2px) scale(1.03);
+        }
+        .statistics-card {
+            background: #2c2f33;
+            padding: 2.5em 2em;
+            min-width: 340px;
+            max-width: 400px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .statistics-card h2 {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 1em;
+        }
+        .stats-bars {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 180px;
+            margin-bottom: 1em;
+            gap: 2em;
+        }
+        .stats-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80px;
+        }
+        .bar-vertical-container {
+            background: #444;
+            width: 38px;
+            height: 120px;
+            border-radius: 12px;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+            margin-bottom: 0.5em;
+        }
+        .bar-vertical {
+            width: 100%;
+            background: linear-gradient(180deg, #ffd600 0%, #fff176 100%);
+            border-radius: 0 0 12px 12px;
+            transition: height 0.5s;
+        }
+        .bar-vertical-label {
+            color: #ffd600;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 0.2em;
+        }
+        .bar-vertical-title {
+            color: #fff;
+            font-size: 1em;
+            margin-bottom: 0.5em;
+        }
+        .stats-explanation {
+            color: #fffbe6;
+            font-size: 1em;
+            text-align: center;
+            margin-top: 1em;
+        }
+        .skill-level-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 18vh;   
+            position: relative;
+            z-index: 2;
+        }
+        .header-top {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 0;
+            padding: 0.7em 0;
+        }
+        @media (max-width: 600px) {
+            .skill-level-card, .statistics-card {
+                padding: 1.2em 0.5em;
+            }
+            .stats-bars {
+                gap: 0.5em;
+            }
+            .stats-col {
+                width: 60px;
+            }
+            .bar-vertical-container {
+                width: 28px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="skill-level-container">
+        <div class="header-top">
+            <h1 style="color:#fff;font-size:2.5em;font-weight:800;letter-spacing:-1px;">
+                Qual o seu nível de conhecimento?
+            </h1>
+        </div>
+        <div class="main-flex">
+            <div class="statistics-card">
+                <h2>Distribuição do conhecimento digital no Brasil</h2>
+                <div class="stats-bars">
+                    <div class="stats-col">
+                        <div class="bar-vertical-container">
+                            <div class="bar-vertical" style="height: 29.9%;"></div>
+                        </div>
+                        <div class="bar-vertical-label">29,9%</div>
+                        <div class="bar-vertical-title">Básico</div>
+                    </div>
+                    <div class="stats-col">
+                        <div class="bar-vertical-container">
+                            <div class="bar-vertical" style="height: 17.9%;"></div>
+                        </div>
+                        <div class="bar-vertical-label">17,9%</div>
+                        <div class="bar-vertical-title">Intermediário</div>
+                    </div>
+                    <div class="stats-col">
+                        <div class="bar-vertical-container">
+                            <div class="bar-vertical" style="height: 4.2%;"></div>
+                        </div>
+                        <div class="bar-vertical-label">4,2%</div>
+                        <div class="bar-vertical-title">Avançado</div>
+                    </div>
+                </div>
+                <div class="stats-explanation">
+                    <p>
+                        E aonde estão os outros 48%? 
+                        48% das pessoas no Brasil não possuem qualquer conhecimento digital. Estes dados mostram a importância da alfabetização digital, mesmo com a tecnologia avançando, o Brasil sofre com um enorme déficit tecnológico.
+                    </p>
+                </div>
+                <div class="stats-source">
+                    Fontes: Anatel, Agência GOV e Cetic.
+                </div>
+            </div>
+            <div class="skill-level-card">
+                <div class="skill-level-header">
+                    <h1>Escolha seu nível</h1>
+                    <p>Selecione seu nível de habilidade para personalizar as atividades:</p>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="skill-level-list">
+                        <div class="skill-level-row">
+                            <button type="submit" name="level" value="basico" class="skill-card">
+                                <span class="level-icon"></span> Básico
+                            </button>
+                        </div>
+                        <div class="skill-level-row">
+                            <button type="submit" name="level" value="intermediario" class="skill-card">
+                                <span class="level-icon"></span> Intermediário
+                            </button>
+                        </div>
+                        <div class="skill-level-row">
+                            <button type="submit" name="level" value="avancado" class="skill-card">
+                                <span class="level-icon"></span> Avançado
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="zero-knowledge-card">
+            <h2>Sem Conhecimento Digital</h2>
+            <div class="zero-percentage">48%</div>
+            <p>
+                Quase metade da população brasileira ainda não possui nenhum conhecimento em tecnologias digitais.<br>
+                Isso mostra a importância de ampliar o acesso e a educação digital no país.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

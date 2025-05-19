@@ -1,0 +1,148 @@
+{% extends "main/base.html" %}
+{% block title %}Atividades - Plataforma Digital Básica{% endblock %}
+{% block content %}
+<header>
+    <h1>Atividades</h1>
+    <p>Escolha uma atividade para praticar o que aprendeu nas aulas!</p>
+</header>
+<section class="atividade-section">
+    <h2>O que é um computador?</h2>
+    <ul class="atividade-list">
+        <li class="atividade-item">
+            <div class="atividade-content">
+                <strong>Identifique as partes do computador</strong>
+                <p>Responda ao quiz sobre as partes do computador e seus usos.</p>
+                <a href="{% url 'main:atividade' 'partes-computador' %}" class="atividade-btn">Praticar</a>
+            </div>
+            <span class="atividade-check" data-atividade="partes-computador"></span>
+        </li>
+    </ul>
+</section>
+<section class="atividade-section">
+    <h2>Como navegar na internet com segurança</h2>
+    <ul class="atividade-list">
+        <li class="atividade-item">
+            <div class="atividade-content">
+                <strong>Crie uma senha segura</strong>
+                <p>Monte uma senha forte usando letras, números e símbolos.</p>
+                <a href="{% url 'main:atividade' 'senha-segura' %}" class="atividade-btn">Praticar</a>
+            </div>
+            <span class="atividade-check" data-atividade="senha-segura"></span>
+        </li>
+        <li class="atividade-item">
+            <div class="atividade-content">
+                <strong>Reconheça sites confiáveis</strong>
+                <p>Escolha quais endereços são seguros para acessar.</p>
+                <a href="{% url 'main:atividade' 'sites-confiaveis' %}" class="atividade-btn">Praticar</a>
+            </div>
+            <span class="atividade-check" data-atividade="sites-confiaveis"></span>
+        </li>
+    </ul>
+</section>
+<section class="atividade-section">
+    <h2>Introdução ao e-mail</h2>
+    <ul class="atividade-list">
+        <li class="atividade-item">
+            <div class="atividade-content">
+                <strong>Envie seu primeiro e-mail</strong>
+                <p>Simule o envio de um e-mail para um amigo.</p>
+                <a href="{% url 'main:atividade' 'envia-email' %}" class="atividade-btn">Praticar</a>
+            </div>
+            <span class="atividade-check" data-atividade="envia-email"></span>
+        </li>
+        <li class="atividade-item">
+            <div class="atividade-content">
+                <strong>Identifique um anexo</strong>
+                <p>Veja como anexar um arquivo em um e-mail.</p>
+                <a href="{% url 'main:atividade' 'anexo-email' %}" class="atividade-btn">Praticar</a>
+            </div>
+            <span class="atividade-check" data-atividade="anexo-email"></span>
+        </li>
+    </ul>
+</section>
+<section class="atividade-section">
+    <h2>Redes sociais: o que são e como usar</h2>
+    <ul class="atividade-list">
+        <li class="atividade-item">
+            <div class="atividade-content">
+                <strong>Configurar privacidade</strong>
+                <p>Escolha as melhores opções de privacidade para um perfil fictício.</p>
+                <a href="{% url 'main:atividade' 'privacidade-redes' %}" class="atividade-btn">Praticar</a>
+            </div>
+            <span class="atividade-check" data-atividade="privacidade-redes"></span>
+        </li>
+        <li class="atividade-item">
+            <div class="atividade-content">
+                <strong>Boas práticas nas redes</strong>
+                <p>Selecione atitudes corretas e incorretas ao usar redes sociais.</p>
+                <a href="{% url 'main:atividade' 'redes-sociais' %}" class="atividade-btn">Praticar</a>
+            </div>
+            <span class="atividade-check" data-atividade="redes-sociais"></span>
+        </li>
+    </ul>
+</section>
+<script>
+function updateAtividadeChecks() {
+    document.querySelectorAll('.atividade-check').forEach(function(span) {
+        const slug = span.getAttribute('data-atividade');
+        if (localStorage.getItem('atividade_' + slug) === 'done') {
+            span.classList.add('checked');
+        } else {
+            span.classList.remove('checked');
+        }
+    });
+}
+updateAtividadeChecks();
+</script>
+<style>
+.atividade-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.atividade-item {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(25,118,210,0.06);
+    margin-bottom: 1.5em;
+    padding: 1.2em 1.5em 1.2em 1.2em;
+    min-height: 90px;
+    transition: box-shadow 0.2s;
+}
+.atividade-item,
+.atividade-item * {
+    color: #232526 !important; 
+}
+.atividade-content {
+    flex: 1;
+}
+.atividade-content p {
+    color: #232526 !important;
+}
+.atividade-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3em;
+    min-width: 3em;
+    height: 3em;
+    font-size: 2.2em;
+    margin-left: 1.2em;
+    border-radius: 50%;
+    background: #f6f8fc;
+    color: #bdbdbd;
+    border: 2px solid #e0e0e0;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.atividade-check.checked {
+    background: #e8f5e9;
+    color: #388e3c;
+    border: 2px solid #388e3c;
+}
+.atividade-check.checked::before {
+    content: "✔";
+}
+</style>
+{% endblock %}

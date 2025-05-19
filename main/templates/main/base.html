@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Plataforma Digital Básica{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'main/main.css' %}">
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="{% static 'main/icons/logo.svg' %}" alt="Logo" class="sidebar-logo">
+            <hr class="sidebar-divider">
+        </div>
+        <ul>
+            <li><a href="{% url 'main:inicio' %}">Início</a></li>
+            <li><a href="{% url 'main:niveis' %}" id="niveis-link">Níveis</a></li>
+            <hr class="sidebar-divider">
+            <li><a href="{% url 'main:aulas' %}">Aulas</a></li>
+            <li><a href="{% url 'main:atividades' %}">Atividades</a></li>
+            <hr class="sidebar-divider">
+        </ul>
+        <div class="sidebar-footer">
+            <a href="{% url 'main:logout' %}">Sair</a>
+        </div>
+    </div>
+    <div class="main-content">
+        {% block content %}{% endblock %}
+    </div>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    var niveisLink = document.getElementById('niveis-link');
+    if (niveisLink) {
+        niveisLink.addEventListener('click', function(e) {
+            if (!confirm('Tem certeza que está pronto pra mudar de nível?')) {
+                e.preventDefault();
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>
+

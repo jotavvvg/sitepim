@@ -1,0 +1,308 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block title %}Envie seu primeiro e-mail{% endblock %}
+{% block content %}
+<div class="gmail-full-bg">
+    <div class="gmail-topbar">
+        <img src="{% static 'main/icons/gmail_icon.svg' %}" alt="Gmail" class="gmail-logo-img">
+        <span class="gmail-logo">Gmail</span>
+        <span class="gmail-topbar-title">Caixa de entrada</span>
+    </div>
+    <div class="gmail-main-flex">
+        <div class="gmail-sidebar-sim">
+            <button class="gmail-compose-btn" id="compose-btn">
+                <span class="material-symbols-outlined" style="vertical-align:middle;font-size:1.3em;margin-right:0.5em;">edit</span>
+                Escrever
+            </button>
+            <div class="gmail-menu-item active"><span class="material-symbols-outlined">inbox</span>Caixa de entrada</div>
+            <div class="gmail-menu-item"><span class="material-symbols-outlined">send</span>Enviados</div>
+            <div class="gmail-menu-item"><span class="material-symbols-outlined">drafts</span>Rascunhos</div>
+        </div>
+        <div class="gmail-content-sim">
+            <div id="gmail-instructions" class="gmail-instructions">
+                <p><b>Instruções:</b> Clique no botão <b>Escrever</b> para escrever um novo e-mail.</p>
+            </div>
+            <div id="compose-window" class="gmail-compose-window" style="display:none;">
+                <div class="gmail-compose-header">
+                    <span>Nova mensagem</span>
+                    <button class="gmail-close-btn" onclick="closeCompose()">×</button>
+                </div>
+                <form id="email-form" onsubmit="enviarEmail(event)">
+                    <div class="gmail-field">
+                        <label>Para:</label>
+                        <input type="email" id="para" required autocomplete="off">
+                    </div>
+                    <div class="gmail-field">
+                        <label>Assunto:</label>
+                        <input type="text" id="assunto" required autocomplete="off">
+                    </div>
+                    <div class="gmail-field">
+                        <label>Mensagem:</label>
+                        <textarea id="mensagem" rows="7" required></textarea>
+                    </div>
+                    <div class="gmail-compose-actions">
+                        <button type="submit" class="gmail-send-btn">Enviar</button>
+                    </div>
+                </form>
+                <div id="email-feedback" class="gmail-feedback"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<a href="{% url 'main:atividades' %}" class="lesson-btn" style="position:fixed;top:1.5em;right:2em;z-index:100;">Voltar para atividades</a>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+<style>
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.gmail-full-bg {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #f6f8fc;
+    min-height: 100vh;
+    min-width: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 150px; 
+}
+.gmail-topbar {
+    height: 56px;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    padding: 0 2.5em 0 2em;
+    gap: 0.7em;
+    font-size: 1.1em;
+    z-index: 2;
+}
+.gmail-logo-img {
+    width: 34px;
+    height: 34px;
+    margin-right: 0.3em;
+    vertical-align: middle;
+}
+.gmail-logo {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: #d93025;
+    letter-spacing: -1px;
+    margin-right: 1.2em;
+    vertical-align: middle;
+}
+.gmail-topbar-title {
+    color: #444;
+    font-weight: 500;
+    font-size: 1.1em;
+    margin-left: 1em;
+}
+.gmail-main-flex {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+    min-width: 0;
+}
+.gmail-sidebar-sim {
+    width: 220px;
+    background: #fff;
+    border-right: 1px solid #e0e0e0;
+    padding: 1.5em 0.5em 1em 0.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    z-index: 2;
+    align-items: flex-start;
+}
+.gmail-compose-btn {
+    background: #c2e7ff;
+    color: #001d35;
+    border: none;
+    border-radius: 24px;
+    padding: 0.9em 2.2em 0.9em 1.5em;
+    font-size: 1.08em;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 1.2em;
+    margin-left: 0.2em;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    display: flex;
+    align-items: center;
+    transition: background 0.2s;
+}
+.gmail-compose-btn:hover {
+    background: #b3e0ff;
+}
+.gmail-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.7em;
+    padding: 0.8em 1.2em;
+    border-radius: 24px;
+    font-size: 1.08em;
+    color: #444;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    font-weight: 500;
+}
+.gmail-menu-item.active, .gmail-menu-item:hover {
+    background: #e8f0fe;
+    color: #1a73e8;
+    font-weight: 600;
+}
+.gmail-content-sim {
+    flex: 1;
+    position: relative;
+    padding: 2.5em 2em 2em 2em;
+    min-height: 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.gmail-instructions {
+    color: #555;
+    font-size: 1.15em;
+    margin-top: 4em;
+    margin-left: 2em;
+}
+.gmail-compose-window {
+    position: absolute;
+    bottom: 2.5em;
+    left: 2.5em;
+    width: 390px;
+    background: #fff;
+    border-radius: 12px 12px 16px 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+    animation: fadeIn 0.3s;
+    z-index: 10;
+}
+.gmail-compose-window input,
+.gmail-compose-window textarea {
+    box-sizing: border-box;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+.gmail-compose-header {
+    background: #f5f5f5;
+    border-radius: 12px 12px 0 0;
+    padding: 1em 1.5em;
+    font-weight: 600;
+    color: #222;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ececec;
+}
+.gmail-close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: #888;
+    cursor: pointer;
+    font-weight: 700;
+    line-height: 1;
+}
+.gmail-field {
+    margin: 1.2em 1.5em 0.7em 1.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3em;
+}
+.gmail-field label {
+    font-size: 1em;
+    color: #444;
+    margin-bottom: 0.2em;
+}
+.gmail-field input, .gmail-field textarea {
+    width: 100%;
+    padding: 0.7em 1em;
+    border-radius: 7px;
+    border: 1px solid #ccc;
+    font-size: 1.05em;
+    margin-bottom: 0.2em;
+    transition: border-color 0.2s;
+    background: #f8fafc;
+}
+.gmail-field input:focus, .gmail-field textarea:focus {
+    border-color: #1a73e8;
+    outline: none;
+}
+.gmail-compose-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1em 1.5em 1.2em 1.5em;
+}
+.gmail-send-btn {
+    background: #1a73e8;
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    padding: 0.7em 2em;
+    font-size: 1.08em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.gmail-send-btn:hover {
+    background: #1765c1;
+}
+.gmail-feedback {
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: 600;
+    margin: 1em 0 1em 0;
+    min-height: 2em;
+    color: #388e3c;
+}
+.atividade-check {
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: middle;
+    margin-right: 0.5em;
+}
+.atividade-check.checked::before {
+    content: "✔";
+    color: #388e3c;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+@media (max-width: 900px) {
+    .gmail-main-flex { flex-direction: column; }
+    .gmail-sidebar-sim { width: 100%; flex-direction: row; gap: 0.5em; border-right: none; border-bottom: 1px solid #ececec; padding: 1em 0.5em;}
+    .gmail-content-sim { padding: 1em; }
+    .gmail-compose-window { left: 50%; transform: translateX(-50%); bottom: 1em; width: 98vw; max-width: 400px;}
+}
+</style>
+<script>
+function closeCompose() {
+    document.getElementById('compose-window').style.display = 'none';
+    document.getElementById('gmail-instructions').style.display = '';
+}
+document.getElementById('compose-btn').onclick = function() {
+    document.getElementById('compose-window').style.display = '';
+    document.getElementById('gmail-instructions').style.display = 'none';
+    document.getElementById('email-feedback').innerHTML = '';
+    document.getElementById('email-form').reset();
+    document.getElementById('para').focus();
+};
+function enviarEmail(e) {
+    e.preventDefault();
+    document.getElementById('email-feedback').innerHTML =
+        "<span>E-mail enviado com sucesso! (Simulação)</span>";
+    setTimeout(() => {
+        closeCompose();
+        document.getElementById('gmail-instructions').innerHTML = "<b>Parabéns!</b> Você enviou seu primeiro e-mail.";
+        document.getElementById('gmail-instructions').style.color = "#388e3c";
+    }, 1200);
+    localStorage.setItem('atividade_envia-email', 'done');
+}
+</script>
+{% endblock %}

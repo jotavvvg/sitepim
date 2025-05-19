@@ -1,0 +1,138 @@
+{% extends "main/base.html" %}
+{% block title %}Crie uma senha segura{% endblock %}
+{% block content %}
+<div class="senha-container">
+    <h1>Crie uma senha segura</h1>
+    <p>Digite uma senha e veja se ela atende aos requisitos de segurança:</p>
+    <div class="senha-input-area">
+        <input type="password" id="senha" placeholder="Digite sua senha" autocomplete="off">
+        <button onclick="checkSenha()" class="atividade-btn">Verificar</button>
+    </div>
+    <ul class="senha-checklist">
+        <li id="check-length"><span class="check-icon">✗</span> Pelo menos 8 caracteres</li>
+        <li id="check-upper"><span class="check-icon">✗</span> Letra maiúscula</li>
+        <li id="check-lower"><span class="check-icon">✗</span> Letra minúscula</li>
+        <li id="check-number"><span class="check-icon">✗</span> Número</li>
+        <li id="check-symbol"><span class="check-icon">✗</span> Símbolo (ex: !, @, #, $)</li>
+    </ul>
+    <div id="senha-feedback" class="senha-feedback"></div>
+    <a href="{% url 'main:atividades' %}" class="lesson-btn" style="margin-top:2em;">Voltar para atividades</a>
+</div>
+<style>
+.senha-container {
+    max-width: 400px;
+    margin: 3em auto 0 auto;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    padding: 2.5em 2em 2em 2em;
+    text-align: center;
+}
+.senha-input-area {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    margin-bottom: 1.5em;
+}
+.senha-input-area input[type="password"] {
+    padding: 0.7em 1em;
+    font-size: 1.1em;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 70%;
+    transition: border-color 0.2s;
+}
+.senha-input-area input[type="password"]:focus {
+    border-color: #ffd600;
+    outline: none;
+}
+.senha-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 1.5em 0 1em 0;
+    text-align: left;
+}
+.senha-checklist li {
+    font-size: 1.08em;
+    margin-bottom: 0.5em;
+    display: flex;
+    align-items: center;
+    gap: 0.7em;
+    color: #d32f2f;
+    transition: color 0.2s;
+}
+.senha-checklist li.checked {
+    color: #388e3c;
+    font-weight: 600;
+}
+.check-icon {
+    font-size: 1.2em;
+    width: 1.5em;
+    display: inline-block;
+    text-align: center;
+}
+.senha-feedback {
+    margin-top: 1.5em;
+    font-size: 1.15em;
+    font-weight: 700;
+    min-height: 2em;
+}
+.atividade-check {
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: middle;
+    margin-right: 0.5em;
+}
+.atividade-check.checked::before {
+    content: "✔";
+    color: #388e3c;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+</style>
+<script>
+function updateChecklist() {
+    const senha = document.getElementById('senha').value;
+    const checks = [
+        { id: 'check-length', valid: senha.length >= 8 },
+        { id: 'check-upper', valid: /[A-Z]/.test(senha) },
+        { id: 'check-lower', valid: /[a-z]/.test(senha) },
+        { id: 'check-number', valid: /\d/.test(senha) },
+        { id: 'check-symbol', valid: /[^A-Za-z0-9]/.test(senha) }
+    ];
+    checks.forEach(item => {
+        const li = document.getElementById(item.id);
+        const icon = li.querySelector('.check-icon');
+        if (item.valid) {
+            li.classList.add('checked');
+            icon.textContent = '✔';
+        } else {
+            li.classList.remove('checked');
+            icon.textContent = '✗';
+        }
+    });
+    document.getElementById('senha-feedback').textContent = '';
+}
+document.getElementById('senha').addEventListener('input', updateChecklist);
+function checkSenha() {
+    const senha = document.getElementById('senha').value;
+    let score = 0;
+    if (senha.length >= 8) score++;
+    if (/[A-Z]/.test(senha)) score++;
+    if (/[a-z]/.test(senha)) score++;
+    if (/\d/.test(senha)) score++;
+    if (/[^A-Za-z0-9]/.test(senha)) score++;
+    let msg = '';
+    if (score >= 4) {
+        msg = "<span style='color:green;'>Senha forte! Ótimo trabalho!</span>";
+    } else if (score === 3) {
+        msg = "<span style='color:#ffd600;'>Senha razoável, tente adicionar mais variedade.</span>";
+    } else {
+        msg = "<span style='color:#d32f2f;'>Senha fraca. Use letras maiúsculas, minúsculas, números e símbolos.</span>";
+    }
+    document.getElementById('senha-feedback').innerHTML = msg;
+    localStorage.setItem('atividade_senha-segura', 'done');
+}
+</script>
+{% endblock %}

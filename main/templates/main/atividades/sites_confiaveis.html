@@ -1,0 +1,110 @@
+{% extends "main/base.html" %}
+{% block title %}Reconheça sites confiáveis{% endblock %}
+{% block content %}
+<div class="sites-confiaveis-container">
+    <h1>Reconheça sites confiáveis</h1>
+    <p>Clique apenas nos links que você considera seguros para acessar.</p>
+    <div class="links-list" id="links-list">
+        <a href="#" class="site-link" data-safe="true">https://www.bb.com.br</a>
+        <a href="#" class="site-link" data-safe="false">http://meubanco.com</a>
+        <a href="#" class="site-link" data-safe="true">https://gov.br</a>
+        <a href="#" class="site-link" data-safe="false">http://promo-premio.com</a>
+        <a href="#" class="site-link" data-safe="true">https://www.receita.fazenda.gov.br</a>
+    </div>
+    <div id="sites-feedback" class="sites-feedback"></div>
+    <a href="{% url 'main:atividades' %}" class="lesson-btn" style="margin-top:2em;">Voltar para atividades</a>
+</div>
+<style>
+.sites-confiaveis-container {
+    max-width: 430px;
+    margin: 3em auto 0 auto;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    padding: 2.5em 2em 2em 2em;
+    text-align: center;
+}
+.links-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1em;
+    margin: 2em 0 1.5em 0;
+    align-items: stretch;
+}
+.site-link {
+    display: block;
+    padding: 0.9em 1em;
+    border-radius: 8px;
+    background: #f7f7f7;
+    color: #1976d2;
+    font-size: 1.08em;
+    text-decoration: underline;
+    font-weight: 600;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+.site-link.clicked-safe {
+    background: #e6ffd6;
+    color: #388e3c;
+    border-color: #388e3c;
+    pointer-events: none;
+}
+.site-link.clicked-unsafe {
+    background: #ffeaea;
+    color: #d32f2f;
+    border-color: #d32f2f;
+    pointer-events: none;
+}
+.sites-feedback {
+    margin-top: 1.5em;
+    font-size: 1.15em;
+    font-weight: 700;
+    min-height: 2em;
+}
+.atividade-check {
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: middle;
+    margin-right: 0.5em;
+}
+.atividade-check.checked::before {
+    content: "✔";
+    color: #388e3c;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+</style>
+<script>
+const safeLinks = [
+    "https://www.bb.com.br",
+    "https://gov.br",
+    "https://www.receita.fazenda.gov.br"
+];
+let correctClicks = 0;
+let finished = false;
+document.querySelectorAll('.site-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (finished) return;
+        const isSafe = this.getAttribute('data-safe') === "true";
+        if (isSafe) {
+            this.classList.add('clicked-safe');
+            correctClicks++;
+            if (correctClicks === safeLinks.length) {
+                document.getElementById('sites-feedback').innerHTML = "<span style='color:green;'>Parabéns! Você reconheceu todos os sites confiáveis.</span>";
+                finished = true;
+                localStorage.setItem('atividade_sites-confiaveis', 'done');
+            }
+        } else {
+            this.classList.add('clicked-unsafe');
+            document.getElementById('sites-feedback').innerHTML = "<span style='color:#d32f2f;'>Você clicou em um site perigoso! Revise as dicas de segurança e tente novamente.</span>";
+            finished = true;
+            document.querySelectorAll('.site-link').forEach(l => l.style.pointerEvents = "none");
+        }
+    });
+});
+</script>
+{% endblock %}
